@@ -1,0 +1,40 @@
+<p>Welcome, {{name}}
+    <span style="float:right">
+    <a [routerLink]="['/questions/new']">Create a New Poll</a> ||
+    <a [routerLink]="['/']">Log Out</a>
+  </span>
+</p>
+<h1>Current Polls <a [routerLink]="['/questions']" (click)="ngOnInit()">show all</a></h1>
+
+
+<form (submit)="search()" #searchForm="ngForm">
+    <span *ngIf="!searchQuery.valid" style="color:red">
+    This field is 3 chars min
+  </span>
+    <input class="input" required minlength="3" style="width:85%" name="searchFform.query" [(ngModel)]="searchFform.query" #searchQuery="ngModel">
+    <input type="submit" name="" [disabled]='!searchForm.valid' value="Sarch">
+</form>
+
+<!-- {{questions | json}} -->
+
+
+<table style="width:100%">
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Survey Question</b></td>
+        <td><b>Date Posted</b></td>
+        <td><b>Action</b></td>
+    </tr>
+    <tr *ngFor="let q of questions; let i = index">
+        <td>{{q.user_name}}</td>
+        <td><a [routerLink]="['/questions/show/',q._id]">{{q.question}}</a></td>
+        <td>{{q.date | date}}</td>
+        <td>
+            <span *ngIf='q.user_name == name'>
+        <form (submit) = "delete(q._id)">
+          <button type="submit" name="delete" value="delete">Delete</button>
+        </form>
+      </span>
+        </td>
+    </tr>
+</table>
